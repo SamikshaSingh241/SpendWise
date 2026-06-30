@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 axios.defaults.withCredentials = true;
 
 const AuthContext = createContext();
@@ -24,10 +25,10 @@ export const AuthProvider = ({ children }) => {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
-        if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== 'http://localhost:5000/api/auth/login' && originalRequest.url !== 'http://localhost:5000/api/auth/refresh') {
+        if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== '/api/auth/login' && originalRequest.url !== '/api/auth/refresh') {
           originalRequest._retry = true;
           try {
-            const { data } = await axios.post('http://localhost:5000/api/auth/refresh');
+            const { data } = await axios.post('/api/auth/refresh');
             if (user) {
               const updatedUser = { ...user, token: data.token };
               setUser(updatedUser);
@@ -47,20 +48,20 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   const login = async (email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const { data } = await axios.post('/api/auth/login', { email, password });
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   };
 
   const register = async (username, email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
+    const { data } = await axios.post('/api/auth/register', { username, email, password });
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   };
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/logout');
+      await axios.post('/api/auth/logout');
     } catch (e) {}
     setUser(null);
     localStorage.removeItem('userInfo');

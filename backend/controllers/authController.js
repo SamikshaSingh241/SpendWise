@@ -29,8 +29,8 @@ const registerUser = async (req, res) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: false, // In production, this should be true for HTTPS
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL,
+      sameSite: (process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL) ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -62,8 +62,8 @@ const authUser = async (req, res) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL,
+      sameSite: (process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL) ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -153,6 +153,8 @@ const logoutUser = async (req, res) => {
   
   res.cookie('refreshToken', '', {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL,
+    sameSite: (process.env.NODE_ENV === 'production' || !!process.env.FRONTEND_URL) ? 'none' : 'strict',
     expires: new Date(0),
   });
   
