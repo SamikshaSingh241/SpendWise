@@ -19,7 +19,7 @@ export default function AddExpenseModal({ isOpen, setIsOpen, onAdded }) {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:5000/api/expenses',
+        '/api/expenses',
         { amount: Number(amount), category, description },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

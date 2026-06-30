@@ -20,8 +20,8 @@ const Dashboard = () => {
   const fetchData = async () => {
     try {
       const [expRes, distRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/expenses', { headers: { Authorization: `Bearer ${user.token}` } }),
-        axios.get('http://localhost:5000/api/analytics/distribution', { headers: { Authorization: `Bearer ${user.token}` } })
+        axios.get('/api/expenses', { headers: { Authorization: `Bearer ${user.token}` } }),
+        axios.get('/api/analytics/distribution', { headers: { Authorization: `Bearer ${user.token}` } })
       ]);
       setExpenses(expRes.data);
       setDistribution(distRes.data);
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const handleDownload = async (type) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/reports/${type}?currency=${currency}`, {
+      const response = await axios.get(`/api/reports/${type}?currency=${currency}`, {
         headers: { Authorization: `Bearer ${user.token}` },
         responseType: 'blob',
       });
@@ -56,7 +56,7 @@ const Dashboard = () => {
   const handleDeleteExpense = async (id) => {
     if (!window.confirm("Are you sure you want to delete this expense?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/expenses/${id}`, {
+      await axios.delete(`/api/expenses/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       fetchData();

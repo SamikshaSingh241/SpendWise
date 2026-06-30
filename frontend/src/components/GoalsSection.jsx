@@ -12,7 +12,7 @@ const GoalsSection = () => {
 
   const fetchGoals = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/goals', { headers: { Authorization: `Bearer ${user.token}` } });
+      const { data } = await axios.get('/api/goals', { headers: { Authorization: `Bearer ${user.token}` } });
       setGoals(data);
     } catch (error) {
       console.error(error);
@@ -26,7 +26,7 @@ const GoalsSection = () => {
   const handleAddGoal = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/goals', { title: newTitle, targetAmount: Number(newAmount) }, { headers: { Authorization: `Bearer ${user.token}` } });
+      await axios.post('/api/goals', { title: newTitle, targetAmount: Number(newAmount) }, { headers: { Authorization: `Bearer ${user.token}` } });
       setNewTitle('');
       setNewAmount('');
       fetchGoals();
@@ -37,7 +37,7 @@ const GoalsSection = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/goals/${id}`, { headers: { Authorization: `Bearer ${user.token}` } });
+      await axios.delete(`/api/goals/${id}`, { headers: { Authorization: `Bearer ${user.token}` } });
       fetchGoals();
     } catch (error) {
       console.error(error);

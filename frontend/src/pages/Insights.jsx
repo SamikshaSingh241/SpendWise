@@ -18,10 +18,10 @@ const Insights = () => {
     const fetchData = async () => {
       try {
         const [profileRes, trendsRes, suggestionsRes, predictionRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/analytics/personality', { headers: { Authorization: `Bearer ${user.token}` } }),
-          axios.get('http://localhost:5000/api/analytics/trends', { headers: { Authorization: `Bearer ${user.token}` } }),
-          axios.get('http://localhost:5000/api/analytics/suggestions', { headers: { Authorization: `Bearer ${user.token}` } }),
-          axios.get('http://localhost:5000/api/analytics/prediction', { headers: { Authorization: `Bearer ${user.token}` } })
+          axios.get('/api/analytics/personality', { headers: { Authorization: `Bearer ${user.token}` } }),
+          axios.get('/api/analytics/trends', { headers: { Authorization: `Bearer ${user.token}` } }),
+          axios.get('/api/analytics/suggestions', { headers: { Authorization: `Bearer ${user.token}` } }),
+          axios.get('/api/analytics/prediction', { headers: { Authorization: `Bearer ${user.token}` } })
         ]);
         setProfile(profileRes.data);
         setTrends(trendsRes.data);

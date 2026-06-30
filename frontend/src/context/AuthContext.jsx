@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateBudget = async (budget) => {
     try {
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', { monthlyBudget: budget }, {
+      const { data } = await axios.put('/api/auth/profile', { monthlyBudget: budget }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setUser(data);
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/auth/profile', {
+      const { data } = await axios.get('/api/auth/profile', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setUser(data);
