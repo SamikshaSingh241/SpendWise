@@ -70,6 +70,7 @@ const Register = () => {
               <input
                 type="text"
                 required
+                autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="block w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-3 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm transition-colors duration-200 border"
@@ -82,6 +83,7 @@ const Register = () => {
               <input
                 type="email"
                 required
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="block w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-3 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm transition-colors duration-200 border"
@@ -94,6 +96,7 @@ const Register = () => {
               <input
                 type="password"
                 required
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="block w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-3 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm transition-colors duration-200 border"
