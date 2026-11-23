@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spendwise-backend
+  namespace: spendwise
+  labels:
+    app: spendwise-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spendwise-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: spendwise-backend
+    spec:
+      containers:
+        - name: backend
+          image: spendwise-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: spendwise-config
+            - secretRef:
+                name: spendwise-secrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spendwise-backend-svc
+  namespace: spendwise
+spec:
+  type: ClusterIP
+  selector:
+    app: spendwise-backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

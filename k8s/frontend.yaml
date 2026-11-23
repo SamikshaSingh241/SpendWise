@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spendwise-frontend
+  namespace: spendwise
+  labels:
+    app: spendwise-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spendwise-frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: spendwise-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: spendwise-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spendwise-frontend-svc
+  namespace: spendwise
+spec:
+  type: ClusterIP
+  selector:
+    app: spendwise-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
